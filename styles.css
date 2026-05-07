@@ -1,0 +1,363 @@
+/* ==========================================
+   VARIÁVEIS E RESET
+   ========================================== */
+
+:root {
+    --color-primary: #7fd889;
+    --color-dark: #141414;
+    --color-dark-secondary: #221f1f;
+    --color-text: #ffffff;
+    --color-text-light: #b3b3b3;
+    --spacing-unit: 16px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.light {
+    --color-primary: #0055aa;
+    --color-dark: #f4f5f7;
+    --color-dark-secondary: #e0e3e8;
+    --color-text: #1f1f1f;
+    --color-text-light: #565e68;
+}
+
+.theme-switcher {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
+    border-radius: 999px;
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 100;
+    color: #fff;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+body.light .theme-switcher {
+    background: rgba(255, 255, 255, 0.8);
+    color: #1f1f1f;
+}
+
+.theme-switcher button {
+    border: 0;
+    background: var(--color-primary);
+    color: var(--color-text);
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.theme-switcher button:hover {
+    transform: scale(1.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ==========================================
+   TIPOGRAFIA E BODY
+   ========================================== */
+
+html {
+    font-size: 12px;
+}
+
+body {
+    font-family: 'Segoe UI', Trebuchet MS, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: var(--color-dark);
+    color: var(--color-text);
+    line-height: 1.6;
+    min-height: 50vh;
+}
+
+/* ==========================================
+   MAIN E SEÇÃO DE PERFIS (COM FUNDO POKEMON)
+   ========================================== */
+
+main {
+    /* 1. Camada de Gradiente (escurece as bordas) + Camada Preta (92% opacidade) */
+    background: 
+        radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%),
+        linear-gradient(rgba(0,0,0,0.80), rgba(0,0,0,0.80)),
+        url('assets/fundo-pokemon.jpg');
+    
+    /* 2. Configurações para a imagem cobrir a tela perfeitamente */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Mantém a imagem fixa durante a rolagem */
+
+    /* 3. Configurações para o conteúdo principal */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    transition: background-color 0.5s ease;
+}
+
+.profiles-container {
+    width: 100%;
+    max-width: 1000px;
+    text-align: center;
+}
+
+.profiles-container h1 {
+    font-size: 3.1rem;
+    font-weight: 400;
+    color: var(--color-text);
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    transition: color 0.5s ease; /* Transição suave de cor ao mudar o tema */
+}
+
+/* ==========================================
+   CORREÇÃO PARA O MODO LIGHT NO MAIN
+   ========================================== */
+
+body.light main {
+    /* No modo claro, trocamos o preto pelo branco (255,255,255) */
+    /* Aumentamos a opacidade do gradiente linear para 0.95 */
+    background: 
+        radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%),
+        linear-gradient(rgba(255,255,255,0.80), rgba(255,255,255,0.80)),
+        url('assets/fundo-pokemon.jpg');
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Ajuste adiicional para os nomes dos perfis ficarem legíveis no modo claro */
+body.light .profile figcaption {
+    color: var(--color-text); /* Usa a cor escura definida no body.light */
+}
+
+/* ==========================================
+   NAVEGAÇÃO DE PERFIS
+   ========================================== */
+
+.profiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 40px;
+    padding: 40px 20px;
+}
+
+/* ==========================================
+   CARD DE PERFIL
+   ========================================== */
+
+.profile {
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.profile figure {
+    background: transparent;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    border-radius: 8px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile figure > img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    transition: var(--transition);
+    display: block;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profile figcaption {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-top: 12px;
+    color: var(--color-text-light); /* Começa um pouco mais claro */
+    transition: var(--transition);
+}
+
+/* ==========================================
+   EFEITOS HOVER
+   ========================================== */
+
+.profile:hover {
+    transform: scale(1.05);
+}
+
+.profile:hover figure {
+    box-shadow: 0 8px 24px rgba(96, 203, 239, 0.595);
+    border: 2px solid var(--color-primary);
+}
+
+.profile:hover img {
+    /* Simular uma borda sem mover o layout*/
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+    filter: brightness(1.2);
+    transform: scale(1.08); /* Dar um efeito de zoom */
+}
+
+.profile:hover figcaption {
+    color: var(--color-primary); /* No hover ele ganha destaque */
+    transform: translateY(-4px);
+}
+
+/* ==========================================
+   AJUSTES DE LINKS E BOTÃO DE GERENCIAR
+   ========================================== */
+
+/* Garante que o link não mude a aparência do texto*/
+.profile-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    outline: none; /* Remove o contorno padrão para usar o nosso personalizado */
+}
+
+/* Botão de gerenciar perfis */
+.manage-profiles {
+    background: transparent;
+    border: 1px solid gray;
+    color: gray;
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 2rem;
+    text-transform: uppercase;
+    transition: var(--transition);
+}
+
+.manage-profiles:hover {
+    border-color: var(--color-text);
+    color: var(--color-text);
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Ajuste do foco para acessibilidade via teclado no link */
+.profile-link:focus .profile img {
+    box-shadow: 0 0 0 4px var(--color-primary);
+}
+
+/* Correção para o modo Light no botão de gerenciar */
+body.light .manage-profiles {
+    border-color: var(--color-text-light);
+    color: var(--color-text-light);
+}
+
+/* ==========================================
+   ESTADOS DE EDIÇÃO (MODO GERENCIAR)
+   ========================================== */
+
+/* 1. Escurece as fotos quando o modo de edição é ativado pelo JS */
+.profiles.editing .profile img {
+    filter: brightness(0.4) grayscale(0.2);
+    transform: scale(0.95);
+}
+
+/* 2. Cria o ícone de lápis oficial centralizado */
+.profiles.editing .profile figure::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 44px;
+    height: 44px;
+    border: 1px solid white;
+    border-radius: 50%;
+    /* Desenha o lápis usando SVG direto no CSS */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.41l-2.34-2.34a1.003 1.003 0 0 0-1.41 0l-1.83 1.83 3.75 3.75L20.71 7.04z"/></svg>');
+    background-size: 55%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* 3. Estilo do botão quando ele está ativado */
+.manage-profiles.active {
+    background-color: white !important;
+    color: black !important;
+    border-color: black !important;
+    font-weight: bold;
+}
+
+/* ==========================================
+   RESPONSIVIDADE
+   ========================================== */
+
+/* Tablet */
+@media (max-width: 768px) {
+    .profiles-container h1 {
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+    }
+
+    .profiles {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 25px;
+        padding: 30px 15px;
+    }
+
+    .profile figcaption {
+        font-size: 1rem;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .profiles-container h1 {
+        font-size: 1.75rem;
+        margin-bottom: 30px;
+    }
+
+    .profiles {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 20px;
+        padding: 20px 10px;
+    }
+
+    .profile:hover {
+        transform: scale(1.02);
+    }
+
+    .profile img {
+        border-radius: 4px;
+    }
+
+    .profile figcaption {
+        font-size: 0.9rem;
+        margin-top: 8px;
+    }
+}
+
+/* ==========================================
+   ACESSIBILIDADE
+   ========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus para navegação por teclado */
+.profile:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+    border-radius: 8px;
+}

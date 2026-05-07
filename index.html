@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header class="theme-switcher" aria-label="Alternar modo tema">
+        <span id="theme-label">Modo escuro</span>
+        <button id="theme-toggle" aria-label="Trocar para modo claro">☀️</button>
+    </header>
+    <main>
+        <section class="profiles-container">
+            <h1>Quem está assistindo?</h1>
+            <nav class="profiles" role="navigation" aria-label="Seleção de perfil">
+
+                <!-- perfil 1 -->
+                <a href="catalogo/catalogo.html" class="profile-link">
+                    <article class="profile">
+                        <figure>
+                            <img src="/assets/perfil-1.jpg" alt="Imagem do pokémon Pikachu realista.">
+                            <figcaption>Pedro</figcaption>
+                        </figure>
+                    </article>
+                </a>
+
+                <!-- perfil 2 -->
+                <a href="catalogo/catalogo.html" class="profile-link">
+                    <article class="profile">
+                        <figure>
+                            <img src="/assets/perfil-2.jpg" alt="Imagem do pokémon Meloetta realista.">
+                            <figcaption>Julia</figcaption>
+                        </figure>
+                    </article>
+                </a>
+                
+                <!-- perfil 3 -->
+                <a href="catalogo/catalogo.html" class="profile-link">
+                    <article class="profile">
+                        <figure>
+                            <img src="/assets/perfil-3.jpg" alt="Imagem do pokémon Mew realista.">
+                            <figcaption>Maria</figcaption>
+                        </figure>
+                    </article>
+                </a>
+
+                <!-- perfil 4 -->
+                <a href="catalogo/catalogo.html" class="profile-link">
+                    <article class="profile">
+                        <figure>
+                            <img src="/assets/perfil-4.jpg" alt="Imagem do pokémon Marshadow realista.">
+                            <figcaption>Douglas</figcaption>
+                        </figure>
+                    </article>
+                </a>
+
+            </nav>
+
+            <button class="manage-profiles">Gerenciar perfis</button>
+        </section>
+    </main>
+
+    <script>
+    // Script para alternar entre modo claro e escuro
+    const toggle = document.getElementById('theme-toggle');
+    const label = document.getElementById('theme-label');
+
+    const setTheme = (theme) => {
+        document.body.classList.remove('light', 'dark');
+        document.body.classList.add(theme);
+        localStorage.setItem('theme', theme);
+        if (theme === 'light') {
+                label.textContent = 'Modo claro';
+                toggle.textContent = '🌙';
+                toggle.setAttribute('aria-label', 'Trocar para modo escuro');
+        } else {
+                label.textContent = 'Modo escuro';
+                toggle.textContent = '☀️';
+                toggle.setAttribute('aria-label', 'Trocar para modo claro');
+        }
+    };
+
+    // Detecta preferência do sistema ou tema salvo
+    const storedTheme = localStorage.getItem('theme');
+    const preferredTheme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    setTheme(storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : preferredTheme);
+
+    toggle.addEventListener('click', () => {
+        const currentTheme = document.body.classList.contains('light') ? 'light' : 'dark';
+        setTheme(currentTheme === 'light' ? 'dark' : 'light');
+    });
+
+// Script para alternar o modo de edição dos perfis
+        
+    const manageBtn = document.querySelector('.manage-profiles');
+    const profilesGrid = document.querySelector('.profiles');
+    const profileLinks = document.querySelectorAll('.profile-link');
+
+    manageBtn.addEventListener('click', () => {
+        // 1. Ativa/Desativa o modo visual no grid e no botão
+        const isEditing = profilesGrid.classList.toggle('editing');
+        manageBtn.classList.toggle('active');
+
+        // 2. Troca o texto do botão
+        manageBtn.textContent = isEditing ? 'CONCLUÍDO' : 'GERENCIAR PERFIS';
+    });
+
+        // 3. Funcionalidade Real: Bloquear o acesso ao catálogo durante a edição
+        profileLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                if (profilesGrid.classList.contains('editing')) {
+                    event.preventDefault(); // Impede o link de abrir a página
+            
+                    // Simula a abertura de uma edição
+                    const nomePerfil = link.querySelector('figcaption').textContent;
+                    alert('Abrindo configurações do perfil de: ' + nomePerfil);
+                }
+            });
+        });
+    </script>
+
+    <script src="js/index.js"></script>
+</body>
+</html>
